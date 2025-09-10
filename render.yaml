@@ -2,8 +2,7 @@ services:
   - type: web
     name: barangay-management-system
     plan: free
-    buildCommand: composer install --no-dev --optimize-autoloader
-    startCommand: php -S 0.0.0.0:$PORT -t public
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: APP_ENV
         value: production
