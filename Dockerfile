@@ -38,7 +38,7 @@ RUN mkdir -p uploads/applications uploads/concerns uploads/documents uploads/cas
     && chmod -R 755 uploads
 
 # Configure Apache
-RUN a2enmod rewrite
+RUN a2enmod rewrite headers
 COPY .docker/apache-config.conf /etc/apache2/sites-available/000-default.conf
 
 # Expose port
