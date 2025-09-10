@@ -19,7 +19,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www/html
 
-# Copy composer files
+# Copy composer files first (for better caching)
 COPY composer.json composer.lock ./
 
 # Install PHP dependencies
@@ -32,14 +32,25 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html
 
-# Create uploads directory
+# Create uploads directory with proper permissions
 RUN mkdir -p uploads/applications uploads/concerns uploads/documents uploads/case_records \
     && chown -R www-data:www-data uploads \
     && chmod -R 755 uploads
 
-# Configure Apache
-RUN a2enmod rewrite headers
-COPY .docker/apache-config.conf /etc/apache2/sites-available/000-default.conf
+# Enable Apache modules
+RUN a2enmod rewrite
+
+# Create a simple Apache configuration
+RUN echo '<VirtualHost *:80>\n\
+    DocumentRoot /var/www/html\n\
+    <Directory /var/www/html>\n\
+        Options Indexes FollowSymLinks\n\
+        AllowOverride All\n\
+        Require all granted\n\
+    </Directory>\n\
+    ErrorLog ${APACHE_LOG_DIR}/error.log\n\
+    CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
 # Expose port
 EXPOSE 80
