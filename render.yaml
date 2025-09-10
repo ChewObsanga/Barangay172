@@ -1,7 +1,6 @@
 services:
   - type: web
     name: barangay-management-system
-    runtime: php
     plan: free
     buildCommand: composer install --no-dev --optimize-autoloader
     startCommand: php -S 0.0.0.0:$PORT -t public
