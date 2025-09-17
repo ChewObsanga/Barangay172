@@ -64,20 +64,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             
             if ($stmt->rowCount() > 0) {
                 // Send email with credentials using EmailService
+                $emailSent = false;
+                $emailError = '';
+                
                 try {
+                    // Try the main EmailService first
                     $emailService = new EmailService();
                     $emailSent = $emailService->sendRegistrationCredentials($email, $username, $password, $full_name, $role);
                     
-                    if ($emailSent) {
-                        $success = 'Registration successful! Your login credentials have been sent to your email address. Please check your email.';
-                    } else {
-                        $success = 'Registration successful! However, there was an issue sending your credentials via email. Please contact support.';
-                        error_log("Email sending failed: " . $emailService->getLastError());
+                    if (!$emailSent) {
+                        $emailError = $emailService->getLastError();
                     }
                 } catch (Exception $e) {
-                    $success = 'Registration successful! However, there was an issue sending your credentials via email. Please contact support.';
-                    error_log("Email service error: " . $e->getMessage());
+                    $emailError = $e->getMessage();
+                    error_log("Main email service failed: " . $emailError);
                 }
+                
+                // If main email service failed, try fallback service
+                if (!$emailSent) {
+                    try {
+                        require_once '../includes/SimpleEmailService.php';
+                        $fallbackService = new SimpleEmailService();
+                        $emailSent = $fallbackService->sendRegistrationCredentials($email, $username, $password, $full_name, $role);
+                        
+                        if ($emailSent) {
+                            $success = 'Registration successful! Your login credentials have been logged and will be processed. Please contact support if you need immediate access.';
+                        } else {
+                            $success = 'Registration successful! However, there was an issue with email delivery. Your credentials have been logged for manual processing.';
+                        }
+                    } catch (Exception $e) {
+                        $success = 'Registration successful! However, there was an issue with email delivery. Your credentials have been logged for manual processing.';
+                        error_log("Fallback email service error: " . $e->getMessage());
+                    }
+                } else {
+                    $success = 'Registration successful! Your login credentials have been sent to your email address. Please check your email.';
+                }
+                
+                // Log the credentials for backup
+                error_log("REGISTRATION SUCCESS - Email: $email, Username: $username, Password: $password, Name: $full_name, Role: $role");
+                
             } else {
                 $error = 'Registration failed. Please try again.';
             }

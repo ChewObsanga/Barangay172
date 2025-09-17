@@ -2,25 +2,46 @@
 // Email Configuration for PHPMailer with Gmail SMTP
 // IMPORTANT: You need to set up an App Password in your Gmail account
 
-// Gmail SMTP Configuration
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_PORT', 587);
-define('SMTP_SECURE', 'tls');
-define('SMTP_USERNAME', 'caloocancitybrgy.172@gmail.com');
-define('SMTP_PASSWORD', 'cqqb wxtp wlkc dltc');
-define('SMTP_FROM_EMAIL', 'noreply@barangay172urduja.com');
-define('SMTP_FROM_NAME', 'Barangay 172 Urduja Management System');
+// Check if we're in production (Render.com) or local development
+$isProduction = isset($_ENV['RENDER']) || (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'onrender.com') !== false);
+
+if ($isProduction) {
+    // Production configuration using environment variables
+    define('SMTP_HOST', $_ENV['SMTP_HOST'] ?? 'smtp.gmail.com');
+    define('SMTP_PORT', $_ENV['SMTP_PORT'] ?? 587);
+    define('SMTP_SECURE', $_ENV['SMTP_SECURE'] ?? 'tls');
+    define('SMTP_USERNAME', $_ENV['SMTP_USERNAME'] ?? 'caloocancitybrgy.172@gmail.com');
+    define('SMTP_PASSWORD', $_ENV['SMTP_PASSWORD'] ?? 'cqqb wxtp wlkc dltc');
+    define('SMTP_FROM_EMAIL', $_ENV['SMTP_FROM_EMAIL'] ?? 'noreply@barangay172urduja.com');
+    define('SMTP_FROM_NAME', $_ENV['SMTP_FROM_NAME'] ?? 'Barangay 172 Urduja Management System');
+    
+    // Production URLs
+    define('SYSTEM_URL', $_ENV['SYSTEM_URL'] ?? 'https://barangay172.onrender.com');
+    define('LOGIN_URL', SYSTEM_URL . '/auth/login.php');
+    
+    // Email sending status
+    define('EMAIL_ENABLED', $_ENV['EMAIL_ENABLED'] ?? 'true') === 'true';
+} else {
+    // Local development configuration
+    define('SMTP_HOST', 'smtp.gmail.com');
+    define('SMTP_PORT', 587);
+    define('SMTP_SECURE', 'tls');
+    define('SMTP_USERNAME', 'caloocancitybrgy.172@gmail.com');
+    define('SMTP_PASSWORD', 'cqqb wxtp wlkc dltc');
+    define('SMTP_FROM_EMAIL', 'noreply@barangay172urduja.com');
+    define('SMTP_FROM_NAME', 'Barangay 172 Urduja Management System');
+    
+    // Local URLs
+    define('SYSTEM_URL', 'http://localhost:8000');
+    define('LOGIN_URL', SYSTEM_URL . '/auth/login.php');
+    
+    // Email sending status
+    define('EMAIL_ENABLED', true);
+}
 
 // Email Templates
 define('EMAIL_SUBJECT_REGISTRATION', 'Your Barangay 172 Urduja Management System Account');
 define('EMAIL_SUBJECT_RESET_PASSWORD', 'Password Reset Request - Barangay 172 Urduja');
-
-// System URLs
-define('SYSTEM_URL', 'http://localhost:8000');
-define('LOGIN_URL', SYSTEM_URL . '/auth/login.php');
-
-// Email sending status
-define('EMAIL_ENABLED', true);
 
 /*
  * 🔑 SETUP INSTRUCTIONS:
