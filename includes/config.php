@@ -1,10 +1,7 @@
 <?php
-// Database configuration for Render deployment
-define('DB_HOST', $_ENV['DB_HOST'] ?? 'localhost');
-define('DB_PORT', $_ENV['DB_PORT'] ?? '5432');
-define('DB_NAME', $_ENV['DB_DATABASE'] ?? 'barangay_management');
-define('DB_USER', $_ENV['DB_USERNAME'] ?? 'barangay_user');
-define('DB_PASS', $_ENV['DB_PASSWORD'] ?? '');
+// Database configuration - SQLite for local development
+define('DB_TYPE', 'sqlite');
+define('DB_PATH', __DIR__ . '/../barangay_management.db');
 define('DB_CHARSET', 'utf8');
 
 // Application configuration

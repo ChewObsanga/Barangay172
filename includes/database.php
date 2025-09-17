@@ -11,8 +11,8 @@ class Database {
     
     private function connect() {
         try {
-            $dsn = 'pgsql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';options=--client_encoding=utf8';
-            $this->connection = new PDO($dsn, DB_USER, DB_PASS);
+            $dsn = 'sqlite:' . DB_PATH;
+            $this->connection = new PDO($dsn);
             $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
             $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
@@ -29,7 +29,7 @@ class Database {
         // Users table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS users (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 full_name VARCHAR(255) NOT NULL,
                 username VARCHAR(100) UNIQUE NOT NULL,
                 email VARCHAR(255) UNIQUE NOT NULL,
@@ -58,7 +58,7 @@ class Database {
         // Barangay Services table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS barangay_services (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 service_name VARCHAR(255) NOT NULL,
                 description TEXT,
                 requirements TEXT,
@@ -73,7 +73,7 @@ class Database {
         // Health Services table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS health_services (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 service_name VARCHAR(255) NOT NULL,
                 description TEXT,
                 requirements TEXT,
@@ -86,7 +86,7 @@ class Database {
         // Applications table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS applications (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 service_type VARCHAR(100) NOT NULL,
                 service_id INTEGER NOT NULL,
@@ -108,7 +108,7 @@ class Database {
         // Patient Registrations table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS patient_registrations (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 blood_type VARCHAR(10),
                 emergency_contact TEXT,
@@ -128,7 +128,7 @@ class Database {
         // Patient Registration Notifications table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS patient_registration_notifications (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 registration_id INTEGER,
                 status VARCHAR(50),
@@ -143,7 +143,7 @@ class Database {
         // Appointments table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS appointments (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 service_type VARCHAR(100),
                 appointment_date TIMESTAMP,
@@ -160,7 +160,7 @@ class Database {
         // Community Concerns table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS community_concerns (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 concern_type VARCHAR(255) NOT NULL,
                 specific_issue VARCHAR(255) NOT NULL,
@@ -181,7 +181,7 @@ class Database {
         // Residents table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS residents (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER UNIQUE,
                 first_name VARCHAR(100) NOT NULL,
                 last_name VARCHAR(100) NOT NULL,
@@ -202,7 +202,7 @@ class Database {
         // Health Records table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS health_records (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 resident_id INTEGER NOT NULL,
                 consultation_date DATE NOT NULL,
                 symptoms TEXT,
@@ -219,7 +219,7 @@ class Database {
         // Admin Messages table
         $this->connection->exec("
             CREATE TABLE IF NOT EXISTS admin_messages (
-                id SERIAL PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id INTEGER NOT NULL,
                 admin_id INTEGER NOT NULL,
                 message TEXT NOT NULL,

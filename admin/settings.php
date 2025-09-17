@@ -166,42 +166,49 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../assets/css/night-mode.css" rel="stylesheet">
+    <script src="../assets/js/night-mode.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         'poppins': ['Poppins', 'sans-serif'],
+                        'garamond': ['EB Garamond', 'serif'],
                     },
                     colors: {
                         'barangay-orange': '#ff8829',
                         'barangay-green': '#2E8B57',
+                        'barangay-blue': '#1e40af',
+                        'barangay-red': '#dc2626',
                     }
                 }
             }
         }
     </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff8829 0%, #ff6b35 50%, #f7931e 100%);
+        }
+    </style>
 </head>
 <body class="font-poppins bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-barangay-orange shadow-lg">
+    <nav class="gradient-bg shadow-lg sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
+            <div class="flex justify-between h-20">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center space-x-3">
-                        <img src="../assets/images/caloocanlogo.png" alt="Caloocan Logo" class="h-10 w-10">
+                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full object-cover">
                         <div>
-                            <h1 class="text-xl font-bold text-white">Admin Dashboard</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja</p>
+                            <h1 class="text-2xl font-bold text-white font-garamond">Admin Dashboard</h1>
+                            <p class="text-sm text-orange-100">Brgy. 172 Urduja - Caloocan City</p>
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
                     <span class="text-white text-sm">Welcome, <?php echo htmlspecialchars($_SESSION['full_name'] ?? 'Admin'); ?></span>
-                    <button onclick="showLogoutModal()" class="bg-white hover:bg-gray-100 text-barangay-orange px-4 py-2 rounded-lg font-medium transition duration-300">
-                        Logout
-                    </button>
                 </div>
             </div>
         </div>
@@ -209,9 +216,10 @@ try {
 
     <div class="flex">
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg min-h-screen">
-            <div class="p-4">
-                <nav class="space-y-2">
+        <div class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-4">
+                    <nav class="space-y-2">
                     <a href="index.php" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
@@ -250,14 +258,25 @@ try {
                         </svg>
                         Settings
                     </a>
-                </nav>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- Logout Button at Bottom -->
+            <div class="p-4 border-t border-gray-200">
+                <button onclick="showLogoutModal()" class="w-full flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Logout
+                </button>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">Settings</h1>
+                <h1 class="text-3xl font-bold text-gray-900 font-garamond">Settings</h1>
                 <p class="text-gray-600">Manage your profile and system settings</p>
             </div>
 
@@ -278,7 +297,7 @@ try {
                 <div class="space-y-6">
                     <!-- Update Profile -->
                     <div class="bg-white rounded-xl shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Update Profile</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 font-garamond">Update Profile</h3>
                         <form method="POST" class="space-y-4">
                             <input type="hidden" name="action" value="update_profile">
                             
@@ -311,7 +330,7 @@ try {
 
                     <!-- Change Password -->
                     <div class="bg-white rounded-xl shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Change Password</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 font-garamond">Change Password</h3>
                         <form method="POST" class="space-y-4">
                             <input type="hidden" name="action" value="change_password">
                             
@@ -344,7 +363,7 @@ try {
                 <!-- System Settings -->
                 <div class="space-y-6">
                     <div class="bg-white rounded-xl shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">System Settings</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 font-garamond">System Settings</h3>
                         <form method="POST" class="space-y-4">
                             <input type="hidden" name="action" value="system_settings">
                             
@@ -393,7 +412,7 @@ try {
 
                     <!-- System Information -->
                     <div class="bg-white rounded-xl shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-4">System Information</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 font-garamond">System Information</h3>
                         <div class="space-y-3 text-sm">
                             <div class="flex justify-between">
                                 <span class="text-gray-600">PHP Version:</span>

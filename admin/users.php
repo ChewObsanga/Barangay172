@@ -120,42 +120,49 @@ try {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management - Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="../assets/css/night-mode.css" rel="stylesheet">
+    <script src="../assets/js/night-mode.js"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
                         'poppins': ['Poppins', 'sans-serif'],
+                        'garamond': ['EB Garamond', 'serif'],
                     },
                     colors: {
                         'barangay-orange': '#ff8829',
                         'barangay-green': '#2E8B57',
+                        'barangay-blue': '#1e40af',
+                        'barangay-red': '#dc2626',
                     }
                 }
             }
         }
     </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #ff8829 0%, #ff6b35 50%, #f7931e 100%);
+        }
+    </style>
 </head>
 <body class="font-poppins bg-gray-50">
     <!-- Navigation -->
-    <nav class="bg-barangay-orange shadow-lg">
+    <nav class="gradient-bg shadow-lg sticky top-0 z-50 backdrop-blur-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
+            <div class="flex justify-between h-20">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center space-x-3">
-                        <img src="../assets/images/caloocanlogo.png" alt="Caloocan Logo" class="h-10 w-10">
+                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full object-cover">
                         <div>
-                            <h1 class="text-xl font-bold text-white">Admin Dashboard</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja</p>
+                            <h1 class="text-2xl font-bold text-white font-garamond">Admin Dashboard</h1>
+                            <p class="text-sm text-orange-100">Brgy. 172 Urduja - Caloocan City</p>
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
                     <span class="text-white text-sm">Welcome, <?php echo htmlspecialchars($_SESSION['full_name'] ?? 'Admin'); ?></span>
-                    <button onclick="showLogoutModal()" class="bg-white hover:bg-gray-100 text-barangay-orange px-4 py-2 rounded-lg font-medium transition duration-300">
-                        Logout
-                    </button>
                 </div>
             </div>
         </div>
@@ -163,9 +170,10 @@ try {
 
     <div class="flex">
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg min-h-screen">
-            <div class="p-4">
-                <nav class="space-y-2">
+        <div class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-4">
+                    <nav class="space-y-2">
                     <a href="index.php" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"></path>
@@ -205,14 +213,25 @@ try {
                         </svg>
                         Settings
                     </a>
-                </nav>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- Logout Button at Bottom -->
+            <div class="p-4 border-t border-gray-200">
+                <button onclick="showLogoutModal()" class="w-full flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition duration-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Logout
+                </button>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="flex-1 p-8">
             <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900">User Management</h1>
+                <h1 class="text-3xl font-bold text-gray-900 font-garamond">User Management</h1>
                 <p class="text-gray-600">Manage all users in the system</p>
             </div>
 
@@ -350,7 +369,7 @@ try {
             <!-- Users Table -->
             <div class="bg-white rounded-xl shadow-md overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">Users (<?php echo $total_users; ?>)</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 font-garamond">Users (<?php echo $total_users; ?>)</h3>
                 </div>
                 
                 <?php if (empty($users)): ?>
@@ -471,7 +490,7 @@ try {
     <div id="userDetailsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
         <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-2xl bg-white">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-gray-900">User Details</h3>
+                <h3 class="text-xl font-bold text-gray-900 font-garamond">User Details</h3>
                 <button onclick="hideUserDetailsModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -495,7 +514,7 @@ try {
     <div id="roleModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
         <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-2xl bg-white">
             <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-gray-900">Change User Role</h3>
+                <h3 class="text-lg font-bold text-gray-900 font-garamond">Change User Role</h3>
                 <button onclick="hideRoleModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -535,7 +554,7 @@ try {
                 <svg class="mx-auto h-12 w-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
                 </svg>
-                <h3 class="text-lg font-bold text-gray-900 mt-4">Delete User</h3>
+                <h3 class="text-lg font-bold text-gray-900 mt-4 font-garamond">Delete User</h3>
                 <p class="text-gray-600 mt-2">Are you sure you want to delete this user? This action cannot be undone.</p>
                 
                 <form method="POST" id="deleteForm" class="mt-6">
@@ -562,7 +581,7 @@ try {
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-4">
                         <div class="bg-gray-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-gray-900 mb-3">Basic Information</h4>
+                            <h4 class="font-semibold text-gray-900 mb-3 font-garamond">Basic Information</h4>
                             <div class="space-y-2">
                                 <div><span class="font-medium">Full Name:</span> ${user.full_name}</div>
                                 <div><span class="font-medium">Username:</span> ${user.username}</div>
@@ -572,7 +591,7 @@ try {
                         </div>
                         
                         <div class="bg-gray-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-gray-900 mb-3">Contact Information</h4>
+                            <h4 class="font-semibold text-gray-900 mb-3 font-garamond">Contact Information</h4>
                             <div class="space-y-2">
                                 <div><span class="font-medium">Phone:</span> ${user.phone || 'Not provided'}</div>
                                 <div><span class="font-medium">House No:</span> ${user.house_no || 'Not provided'}</div>
@@ -586,7 +605,7 @@ try {
                     
                     <div class="space-y-4">
                         <div class="bg-gray-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-gray-900 mb-3">Account Details</h4>
+                            <h4 class="font-semibold text-gray-900 mb-3 font-garamond">Account Details</h4>
                             <div class="space-y-2">
                                 <div><span class="font-medium">Role:</span> 
                                     <span class="px-2 py-1 text-xs font-medium rounded-full 
@@ -607,7 +626,7 @@ try {
                         </div>
                         
                         <div class="bg-gray-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-gray-900 mb-3">Timestamps</h4>
+                            <h4 class="font-semibold text-gray-900 mb-3 font-garamond">Timestamps</h4>
                             <div class="space-y-2">
                                 <div><span class="font-medium">Created:</span> ${new Date(user.created_at).toLocaleString()}</div>
                                 <div><span class="font-medium">Last Updated:</span> ${new Date(user.updated_at).toLocaleString()}</div>

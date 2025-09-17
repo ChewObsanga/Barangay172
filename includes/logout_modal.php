@@ -15,7 +15,7 @@
 <!-- Logout Confirmation Modal -->
 <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
     <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="bg-white rounded-lg shadow-xl max-w-md w-full">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
             <div class="p-6">
                 <div class="flex items-center mb-4">
                     <div class="flex-shrink-0">
@@ -24,14 +24,14 @@
                         </svg>
                     </div>
                     <div class="ml-3">
-                        <h3 class="text-lg font-medium text-gray-900 font-eb-garamond">Confirm Logout</h3>
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white font-eb-garamond">Confirm Logout</h3>
                     </div>
                 </div>
                 <div class="mb-6">
-                    <p class="text-sm text-gray-500">Are you sure you want to logout? You will need to login again to access the system.</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Are you sure you want to logout? You will need to login again to access the system.</p>
                 </div>
                 <div class="flex justify-end space-x-3">
-                    <button onclick="hideLogoutModal()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                    <button onclick="hideLogoutModal()" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors">
                         Cancel
                     </button>
                     <a href="<?php 
