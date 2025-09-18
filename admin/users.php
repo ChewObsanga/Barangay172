@@ -91,7 +91,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 
                                 if ($insert_stmt->execute([$full_name, $username, $email, $hashed_password, $role, $phone, $address])) {
                                     // Send email with credentials
+                                    $emailSent = false;
+                                    $emailError = '';
+                                    
                                     try {
+                                        // Try PHPMailer first
                                         require_once '../includes/EmailService.php';
                                         $emailService = new EmailService();
                                         
@@ -104,13 +108,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             $message = 'User created successfully! Login credentials have been sent to their email.';
                                             error_log("Registration email sent successfully to: $email");
                                         } else {
-                                            $errorInfo = $emailService->getLastError();
-                                            error_log("Failed to send registration email to: $email. Error: $errorInfo");
-                                            $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password . ' (Error: ' . $errorInfo . ')';
+                                            $emailError = $emailService->getLastError();
+                                            error_log("PHPMailer failed to send registration email to: $email. Error: $emailError");
                                         }
                                     } catch (Exception $e) {
-                                        error_log("Exception while sending registration email to: $email. Error: " . $e->getMessage());
-                                        $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password . ' (Exception: ' . $e->getMessage() . ')';
+                                        $emailError = $e->getMessage();
+                                        error_log("PHPMailer exception while sending registration email to: $email. Error: " . $e->getMessage());
+                                    }
+                                    
+                                    // If PHPMailer failed, try simple mail() function as fallback
+                                    if (!$emailSent) {
+                                        try {
+                                            require_once '../includes/SimpleEmailService.php';
+                                            $simpleEmailService = new SimpleEmailService();
+                                            
+                                            error_log("Trying SimpleEmailService as fallback for: $email");
+                                            $emailSent = $simpleEmailService->sendRegistrationCredentials($email, $username, $password, $full_name, $role);
+                                            
+                                            if ($emailSent) {
+                                                $message = 'User created successfully! Login credentials have been sent to their email (via fallback method).';
+                                                error_log("SimpleEmailService sent email successfully to: $email");
+                                            } else {
+                                                error_log("SimpleEmailService also failed for: $email");
+                                            }
+                                        } catch (Exception $e) {
+                                            error_log("SimpleEmailService exception: " . $e->getMessage());
+                                        }
+                                    }
+                                    
+                                    // If both methods failed
+                                    if (!$emailSent) {
+                                        $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password . ' (PHPMailer Error: ' . $emailError . ')';
                                     }
                                     
                                     // Redirect to prevent form resubmission

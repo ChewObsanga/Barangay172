@@ -7,10 +7,20 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
+require_once '../includes/email_config.php';
 require_once '../includes/EmailService.php';
 
 $message = '';
 $error = '';
+$debug_info = [];
+
+// Get configuration info
+$debug_info['isProduction'] = isset($_ENV['RENDER']) || (isset($_SERVER['HTTP_HOST']) && strpos($_SERVER['HTTP_HOST'], 'onrender.com') !== false);
+$debug_info['smtp_host'] = SMTP_HOST;
+$debug_info['smtp_port'] = SMTP_PORT;
+$debug_info['smtp_username'] = SMTP_USERNAME;
+$debug_info['email_enabled'] = EMAIL_ENABLED;
+$debug_info['from_email'] = SMTP_FROM_EMAIL;
 
 if ($_POST) {
     $test_email = $_POST['test_email'] ?? '';
@@ -19,10 +29,12 @@ if ($_POST) {
         $error = 'Please enter an email address.';
     } else {
         try {
+            // Enable SMTP debugging
             $emailService = new EmailService();
             
             // Test connection first
             $connectionTest = $emailService->testConnection();
+            $debug_info['connection_test'] = $connectionTest ? 'PASSED' : 'FAILED';
             
             if ($connectionTest) {
                 // Send test email
@@ -34,6 +46,9 @@ if ($_POST) {
                     'resident'
                 );
                 
+                $debug_info['email_sent'] = $emailSent ? 'SUCCESS' : 'FAILED';
+                $debug_info['last_error'] = $emailService->getLastError();
+                
                 if ($emailSent) {
                     $message = 'Test email sent successfully! Check the inbox and spam folder.';
                 } else {
@@ -41,10 +56,12 @@ if ($_POST) {
                 }
             } else {
                 $error = 'SMTP connection failed. Check your email configuration.';
+                $debug_info['last_error'] = $emailService->getLastError();
             }
             
         } catch (Exception $e) {
             $error = 'Error: ' . $e->getMessage();
+            $debug_info['exception'] = $e->getMessage();
         }
     }
 }
@@ -102,6 +119,31 @@ if ($_POST) {
                         <?php echo htmlspecialchars($error); ?>
                     </div>
                 <?php endif; ?>
+                
+                <!-- Debug Information -->
+                <div class="mt-6 bg-gray-100 border border-gray-300 rounded p-4">
+                    <h3 class="text-lg font-medium text-gray-900 mb-3">Debug Information</h3>
+                    <div class="space-y-2 text-sm">
+                        <div><strong>Environment:</strong> <?php echo $debug_info['isProduction'] ? 'Production' : 'Development'; ?></div>
+                        <div><strong>SMTP Host:</strong> <?php echo htmlspecialchars($debug_info['smtp_host']); ?></div>
+                        <div><strong>SMTP Port:</strong> <?php echo htmlspecialchars($debug_info['smtp_port']); ?></div>
+                        <div><strong>SMTP Username:</strong> <?php echo htmlspecialchars($debug_info['smtp_username']); ?></div>
+                        <div><strong>From Email:</strong> <?php echo htmlspecialchars($debug_info['from_email']); ?></div>
+                        <div><strong>Email Enabled:</strong> <?php echo $debug_info['email_enabled'] ? 'Yes' : 'No'; ?></div>
+                        <?php if (isset($debug_info['connection_test'])): ?>
+                            <div><strong>Connection Test:</strong> <span class="<?php echo $debug_info['connection_test'] === 'PASSED' ? 'text-green-600' : 'text-red-600'; ?>"><?php echo $debug_info['connection_test']; ?></span></div>
+                        <?php endif; ?>
+                        <?php if (isset($debug_info['email_sent'])): ?>
+                            <div><strong>Email Sent:</strong> <span class="<?php echo $debug_info['email_sent'] === 'SUCCESS' ? 'text-green-600' : 'text-red-600'; ?>"><?php echo $debug_info['email_sent']; ?></span></div>
+                        <?php endif; ?>
+                        <?php if (isset($debug_info['last_error']) && !empty($debug_info['last_error'])): ?>
+                            <div><strong>Last Error:</strong> <span class="text-red-600"><?php echo htmlspecialchars($debug_info['last_error']); ?></span></div>
+                        <?php endif; ?>
+                        <?php if (isset($debug_info['exception'])): ?>
+                            <div><strong>Exception:</strong> <span class="text-red-600"><?php echo htmlspecialchars($debug_info['exception']); ?></span></div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </form>
             
             <div class="mt-8">
