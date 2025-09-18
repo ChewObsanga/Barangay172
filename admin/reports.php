@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports - Admin Dashboard</title>
+    <title>Reports - Brgy. 172 Urduja</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="../assets/css/night-mode.css" rel="stylesheet">
@@ -164,9 +164,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #ff8829 0%, #ff6b35 50%, #f7931e 100%);
-        }
         
         /* Mobile responsiveness fixes */
         @media (max-width: 1023px) {
@@ -201,20 +198,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body class="font-poppins bg-gray-50">
     <!-- Navigation -->
-    <nav class="gradient-bg shadow-lg sticky top-0 z-50 backdrop-blur-md">
+    <nav class="shadow-lg sticky top-0 z-50 backdrop-blur-md" style="background-color: #ff6700;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center space-x-3">
                         <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full object-cover">
                         <div>
-                            <h1 class="text-2xl font-bold text-white font-garamond">Admin Dashboard</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja - Caloocan City</p>
+                            <h1 class="text-2xl font-bold text-white font-garamond">Brgy. 172 Urduja</h1>
+                            <p class="text-sm text-orange-100">Caloocan City</p>
                         </div>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span class="text-white text-sm">Welcome, <?php echo htmlspecialchars($_SESSION['full_name'] ?? 'Admin'); ?></span>
+                    <span class="text-white text-sm hidden md:block">Welcome, <?php echo htmlspecialchars($_SESSION['full_name'] ?? 'Admin'); ?></span>
                 </div>
             </div>
         </div>
@@ -244,9 +241,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </a>
                     <a href="users.php" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
                         </svg>
-                        User Management
+                        <span class="whitespace-nowrap">User Management</span>
                     </a>
                     <a href="barangay-hall.php" class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
                         <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -273,18 +270,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </svg>
                         Settings
                     </a>
+                    <button onclick="showLogoutModal()" class="w-full flex items-center px-4 py-2 text-gray-600 hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors mt-2">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Logout
+                    </button>
                     </nav>
                 </div>
-            </div>
-            
-            <!-- Logout Button at Bottom -->
-            <div class="p-4 border-t border-gray-200">
-                <button onclick="showLogoutModal()" class="w-full flex items-center justify-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition duration-300">
-                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-                    </svg>
-                    Logout
-                </button>
             </div>
         </div>
 

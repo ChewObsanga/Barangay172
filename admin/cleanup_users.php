@@ -61,7 +61,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Cleanup - Admin Dashboard</title>
+    <title>User Cleanup - Brgy. 172 Urduja</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=EB+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="../assets/css/night-mode.css" rel="stylesheet">
@@ -85,14 +85,11 @@ try {
         }
     </script>
     <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #ff8829 0%, #ff6b35 50%, #f7931e 100%);
-        }
     </style>
 </head>
 <body class="font-poppins bg-gray-50">
     <!-- Navigation -->
-    <nav class="gradient-bg shadow-lg sticky top-0 z-50 backdrop-blur-md">
+    <nav class="shadow-lg sticky top-0 z-50 backdrop-blur-md" style="background-color: #ff6700;">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20">
                 <div class="flex items-center">
@@ -100,7 +97,7 @@ try {
                         <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full object-cover">
                         <div>
                             <h1 class="text-2xl font-bold text-white font-garamond">User Cleanup</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja - Caloocan City</p>
+                            <p class="text-sm text-orange-100">Caloocan City</p>
                         </div>
                     </div>
                 </div>
