@@ -144,6 +144,36 @@ try {
         .gradient-bg {
             background: linear-gradient(135deg, #ff8829 0%, #ff6b35 50%, #f7931e 100%);
         }
+        
+        /* Mobile responsiveness fixes */
+        @media (max-width: 1023px) {
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            
+            #sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .mobile-overlay {
+                display: block;
+            }
+            
+            .mobile-overlay.hidden {
+                display: none;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            #sidebar {
+                transform: translateX(0);
+            }
+            
+            .mobile-overlay {
+                display: none !important;
+            }
+        }
     </style>
 </head>
 <body class="font-poppins bg-gray-50">
@@ -178,7 +208,7 @@ try {
         </div>
 
         <!-- Sidebar -->
-        <div id="sidebar" class="w-64 bg-white shadow-lg min-h-screen flex flex-col fixed lg:relative transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-30">
+        <div id="sidebar" class="w-64 bg-white shadow-lg min-h-screen flex flex-col fixed lg:relative z-30">
             <div class="flex-1 overflow-y-auto">
                 <div class="p-4">
                     <nav class="space-y-2">
@@ -255,26 +285,26 @@ try {
             const overlay = document.createElement('div');
             
             // Create overlay for mobile
-            overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden hidden';
+            overlay.className = 'mobile-overlay fixed inset-0 bg-black bg-opacity-50 z-20 hidden';
             overlay.id = 'mobileOverlay';
             document.body.appendChild(overlay);
             
             // Toggle mobile menu
             mobileMenuBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('-translate-x-full');
+                sidebar.classList.toggle('show');
                 overlay.classList.toggle('hidden');
             });
             
             // Close mobile menu when clicking overlay
             overlay.addEventListener('click', function() {
-                sidebar.classList.add('-translate-x-full');
+                sidebar.classList.remove('show');
                 overlay.classList.add('hidden');
             });
             
             // Close mobile menu on window resize
             window.addEventListener('resize', function() {
                 if (window.innerWidth >= 1024) {
-                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.remove('show');
                     overlay.classList.add('hidden');
                 }
             });
