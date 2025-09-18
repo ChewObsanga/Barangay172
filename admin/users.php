@@ -289,7 +289,7 @@ function generateRandomPassword($length = 8) {
 
     <div class="flex flex-col lg:flex-row">
         <!-- Mobile Menu Button -->
-        <div class="lg:hidden fixed top-24 left-4 z-40">
+        <div class="lg:hidden fixed top-32 left-4 z-40">
             <button id="mobileMenuBtn" class="bg-white p-2 rounded-lg shadow-lg hover:bg-gray-50 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -353,7 +353,7 @@ function generateRandomPassword($length = 8) {
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-4 lg:p-8 lg:ml-0">
+        <div class="flex-1 p-4 lg:p-8 lg:ml-0 ml-16 lg:ml-0">
             <div class="mb-6 lg:mb-8">
                 <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-garamond">User Management</h1>
                 <p class="text-sm lg:text-base text-gray-600">Manage all users in the system</p>
