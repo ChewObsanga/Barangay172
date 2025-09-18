@@ -10,6 +10,36 @@
     --shadow-color: rgba(0, 0, 0, 0.3);
 }
 
+/* Night Mode Toggle Button Styles */
+#night-mode-toggle {
+    position: relative;
+    z-index: 10;
+    min-width: 40px;
+    min-height: 40px;
+    flex-shrink: 0;
+}
+
+#night-mode-toggle:hover {
+    transform: scale(1.05);
+}
+
+/* Ensure toggle doesn't interfere with header layout */
+nav .flex.items-center.space-x-4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+}
+
+/* Mobile responsiveness for toggle */
+@media (max-width: 768px) {
+    #night-mode-toggle {
+        min-width: 36px;
+        min-height: 36px;
+        padding: 0.5rem;
+    }
+}
+
 /* Dark theme overrides */
 .night-mode body {
     background-color: var(--bg-primary) !important;
