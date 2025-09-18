@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmt = $conn->prepare("
             INSERT INTO community_concerns 
             (user_id, concern_type, specific_issue, location, description, priority_level, status, photos, created_at) 
-            VALUES (?, ?, ?, ?, ?, ?, 'Pending', ?, NOW())
+            VALUES (?, ?, ?, ?, ?, ?, 'Pending', ?, datetime('now'))
         ");
         
         $photos_json = !empty($photo_paths) ? json_encode($photo_paths) : null;

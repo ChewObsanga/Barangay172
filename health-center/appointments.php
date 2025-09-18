@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER['CONTENT_TYPE'] ?? 
             // Create appointment request
             $insert_stmt = $conn->prepare("
                 INSERT INTO appointments (user_id, service_type, appointment_date, status, notes, created_at) 
-                VALUES (?, ?, NOW() + INTERVAL 1 DAY, 'scheduled', ?, NOW())
+                VALUES (?, ?, datetime('now', '+1 day'), 'scheduled', ?, datetime('now'))
             ");
             
             $notes = "Online appointment request";
@@ -103,7 +103,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && strpos($_SERVER['CONTENT_TYPE'] ?? 
             
             $update_stmt = $conn->prepare("
                 UPDATE appointments 
-                SET status = 'confirmed', appointment_date = ?, confirmed_by = ?, updated_at = NOW() 
+                SET status = 'confirmed', appointment_date = ?, confirmed_by = ?, updated_at = datetime('now') 
                 WHERE id = ?
             ");
             $update_stmt->execute([$appointment_datetime, $staff_id, $appointment_id]);
@@ -215,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     
     try {
         if ($action === 'confirm') {
-            $update_stmt = $conn->prepare("UPDATE appointments SET status = 'confirmed', updated_at = NOW() WHERE id = ?");
+            $update_stmt = $conn->prepare("UPDATE appointments SET status = 'confirmed', updated_at = datetime('now') WHERE id = ?");
             $update_stmt->execute([$appointment_id]);
         } elseif ($action === 'delete') {
             $delete_stmt = $conn->prepare("DELETE FROM appointments WHERE id = ?");

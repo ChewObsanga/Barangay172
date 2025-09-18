@@ -16,8 +16,8 @@ class NotificationHelper {
         try {
             $stmt = $this->conn->prepare("
                 INSERT INTO notification_views (user_id, module, last_viewed) 
-                VALUES (?, ?, NOW()) 
-                ON DUPLICATE KEY UPDATE last_viewed = NOW()
+                VALUES (?, ?, datetime('now')) 
+                ON DUPLICATE KEY UPDATE last_viewed = datetime('now')
             ");
             return $stmt->execute([$user_id, $module]);
         } catch (Exception $e) {

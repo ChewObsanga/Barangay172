@@ -27,7 +27,7 @@ require_once 'includes/notification_badge.php';
 // Mark applications as viewed when staff visits this page
 if (isset($_SESSION['user_id'])) {
     try {
-        $stmt = $conn->prepare("UPDATE users SET last_viewed_applications = NOW() WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE users SET last_viewed_applications = datetime('now') WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
     } catch (Exception $e) {
         error_log("Error updating last_viewed_applications: " . $e->getMessage());
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $remarks = trim($_POST['remarks'] ?? '');
                 
                 try {
-                    $stmt = $conn->prepare("UPDATE applications SET status = ?, remarks = ?, updated_at = NOW() WHERE id = ?");
+                    $stmt = $conn->prepare("UPDATE applications SET status = ?, remarks = ?, updated_at = datetime('now') WHERE id = ?");
                     if ($stmt->execute([$new_status, $remarks, $application_id])) {
                         // Send Ready for Pick-up email if status is approved with matching remark
                         if ($emailService && strtolower($new_status) === 'approved' && stripos($remarks, 'ready for pick-up') !== false) {
@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $remarks = trim($_POST['remarks'] ?? '');
                 
                 try {
-                    $stmt = $conn->prepare("UPDATE applications SET status = 'processing', remarks = ?, updated_at = NOW() WHERE id = ?");
+                    $stmt = $conn->prepare("UPDATE applications SET status = 'processing', remarks = ?, updated_at = datetime('now') WHERE id = ?");
                     if ($stmt->execute([$remarks, $application_id])) {
                         // Redirect to prevent form resubmission
                         header('Location: applications.php?message=Application is now being processed');
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 
                 try {
                     // Update status to processing
-                    $stmt = $conn->prepare("UPDATE applications SET status = 'processing', updated_at = NOW() WHERE id = ?");
+                    $stmt = $conn->prepare("UPDATE applications SET status = 'processing', updated_at = datetime('now') WHERE id = ?");
                     if ($stmt->execute([$application_id])) {
                         // Return success response for AJAX
                         echo json_encode(['success' => true, 'message' => 'Certificate generated successfully']);

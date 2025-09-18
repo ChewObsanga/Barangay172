@@ -143,13 +143,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
                 $error = 'You already have a pending or approved patient registration.';
             } else {
                 // Insert patient registration
-                $stmt = $conn->prepare("INSERT INTO patient_registrations (user_id, blood_type, emergency_contact, medical_history, current_medications, insurance_info, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 'pending', NOW())");
+                $stmt = $conn->prepare("INSERT INTO patient_registrations (user_id, blood_type, emergency_contact, medical_history, current_medications, insurance_info, status, created_at) VALUES (?, ?, ?, ?, ?, ?, 'pending', datetime('now'))");
                 $stmt->execute([$user_id, $blood_type, $emergency_contact, $medical_history, $current_medications, $insurance_info]);
                 
                 // Create notification for health center staff
                 try {
                     $registration_id = $conn->lastInsertId();
-                    $stmt = $conn->prepare("INSERT INTO patient_registration_notifications (user_id, registration_id, status, message, is_read, created_at) VALUES (?, ?, 'pending', 'New patient registration submitted', 0, NOW())");
+                    $stmt = $conn->prepare("INSERT INTO patient_registration_notifications (user_id, registration_id, status, message, is_read, created_at) VALUES (?, ?, 'pending', 'New patient registration submitted', 0, datetime('now'))");
                     $stmt->execute([$user_id, $registration_id]);
                 } catch (Exception $e) {
                     error_log("Failed to create patient registration notification: " . $e->getMessage());

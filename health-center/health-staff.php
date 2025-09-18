@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             
             $update_stmt = $conn->prepare("
                 UPDATE patient_registrations 
-                SET status = 'approved', approved_by = ?, approved_at = NOW(), staff_notes = ?, updated_at = NOW() 
+                SET status = 'approved', approved_by = ?, approved_at = datetime('now'), staff_notes = ?, updated_at = datetime('now') 
                 WHERE id = ?
             ");
             $update_stmt->execute([$user_id, $staff_notes, $registration_id]);
@@ -129,7 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             
             $update_stmt = $conn->prepare("
                 UPDATE patient_registrations 
-                SET status = 'rejected', approved_by = ?, approved_at = NOW(), staff_notes = ?, updated_at = NOW() 
+                SET status = 'rejected', approved_by = ?, approved_at = datetime('now'), staff_notes = ?, updated_at = datetime('now') 
                 WHERE id = ?
             ");
             $update_stmt->execute([$user_id, $staff_notes, $registration_id]);

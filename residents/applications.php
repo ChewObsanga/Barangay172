@@ -23,7 +23,7 @@ $error = '';
 // Update last viewed applications timestamp when user visits this page
 if (isset($_SESSION['user_id'])) {
     try {
-        $stmt = $conn->prepare("UPDATE users SET last_viewed_applications = NOW() WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE users SET last_viewed_applications = datetime('now') WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
     } catch (Exception $e) {
         // Silently fail if update doesn't work
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $error = 'Only pending applications can be cancelled.';
                     } else {
                         // Cancel the application
-                        $stmt = $conn->prepare("UPDATE applications SET status = 'cancelled', updated_at = NOW() WHERE id = ? AND user_id = ?");
+                        $stmt = $conn->prepare("UPDATE applications SET status = 'cancelled', updated_at = datetime('now') WHERE id = ? AND user_id = ?");
                         if ($stmt->execute([$application_id, $user_id])) {
                             // Redirect to prevent form resubmission
                             header('Location: applications.php?message=Application cancelled successfully');
@@ -161,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $error = 'Only applications marked as Ready for Pick-up can be claimed.';
                     } else {
                         // Set to claimed
-                        $stmt = $conn->prepare("UPDATE applications SET status = 'claimed', remarks = 'Claimed by resident', processed_date = NOW(), updated_at = NOW() WHERE id = ? AND user_id = ?");
+                        $stmt = $conn->prepare("UPDATE applications SET status = 'claimed', remarks = 'Claimed by resident', processed_date = datetime('now'), updated_at = datetime('now') WHERE id = ? AND user_id = ?");
                         if ($stmt->execute([$application_id, $user_id])) {
                             header('Location: applications.php?message=Application marked as claimed');
                             exit();

@@ -20,7 +20,7 @@ require_once 'includes/notification_badge.php';
 // Mark resident verification requests as viewed when staff visits this page
 if (isset($_SESSION['user_id'])) {
     try {
-        $stmt = $conn->prepare("UPDATE users SET last_viewed_residents = NOW() WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE users SET last_viewed_residents = datetime('now') WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
     } catch (Exception $e) {
         error_log("Error updating last_viewed_residents: " . $e->getMessage());
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (isset($_POST['user_id'])) {
                     $user_id = $_POST['user_id'];
                     try {
-                        $stmt = $conn->prepare("UPDATE users SET account_verified = 1, verified_by = ?, verified_at = NOW() WHERE id = ? AND role = 'resident'");
+                        $stmt = $conn->prepare("UPDATE users SET account_verified = 1, verified_by = ?, verified_at = datetime('now') WHERE id = ? AND role = 'resident'");
                         if ($stmt->execute([$_SESSION['user_id'], $user_id])) {
                             // Redirect to prevent form resubmission
                             header('Location: barangay-staff.php?message=Resident account verified successfully');
@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     
                     if (!empty($message_text)) {
                         try {
-                            $stmt = $conn->prepare("INSERT INTO admin_messages (user_id, admin_id, message, created_at) VALUES (?, ?, ?, NOW())");
+                            $stmt = $conn->prepare("INSERT INTO admin_messages (user_id, admin_id, message, created_at) VALUES (?, ?, ?, datetime('now'))");
                             if ($stmt->execute([$user_id, $admin_id, $message_text])) {
                                 // Redirect to prevent form resubmission
                                 header('Location: barangay-staff.php?message=Message sent successfully');

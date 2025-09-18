@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
                                 
                                 // Insert new user
-                                $insert_stmt = $conn->prepare("INSERT INTO users (full_name, username, email, password, role, phone, address, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', NOW())");
+                                $insert_stmt = $conn->prepare("INSERT INTO users (full_name, username, email, password, role, phone, address, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', datetime('now'))");
                                 
                                 if ($insert_stmt->execute([$full_name, $username, $email, $hashed_password, $role, $phone, $address])) {
                                     // Send email with credentials

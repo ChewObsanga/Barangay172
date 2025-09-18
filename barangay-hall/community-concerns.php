@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         $admin_id = null;
                     }
                     
-                    $stmt = $conn->prepare("UPDATE community_concerns SET status = ?, admin_response = ?, admin_id = ?, updated_at = NOW() WHERE id = ?");
+                    $stmt = $conn->prepare("UPDATE community_concerns SET status = ?, admin_response = ?, admin_id = ?, updated_at = datetime('now') WHERE id = ?");
                     if ($stmt->execute([$new_status, $admin_response, $admin_id, $concern_id])) {
                         header('Location: community-concerns.php?message=Concern status updated successfully');
                         exit();
@@ -89,7 +89,7 @@ $notificationHelper->markAsViewed($user_id, 'community_concerns');
 // Mark concerns as viewed when staff visits this page
 if (isset($_SESSION['user_id'])) {
     try {
-        $stmt = $conn->prepare("UPDATE users SET last_viewed_concerns = NOW() WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE users SET last_viewed_concerns = datetime('now') WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);
     } catch (Exception $e) {
         error_log("Error updating last_viewed_concerns: " . $e->getMessage());

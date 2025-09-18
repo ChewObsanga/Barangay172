@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error = 'Service name and description are required.';
                 } else {
                     try {
-                        $stmt = $conn->prepare("INSERT INTO barangay_services (service_name, description, requirements, processing_time, fee, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+                        $stmt = $conn->prepare("INSERT INTO barangay_services (service_name, description, requirements, processing_time, fee, created_at) VALUES (?, ?, ?, ?, ?, datetime('now'))");
                         if ($stmt->execute([$service_name, $description, $requirements, $processing_time, $fee])) {
                             $message = 'Service added successfully.';
                         } else {
@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error = 'Service name and description are required.';
                 } else {
                     try {
-                        $stmt = $conn->prepare("UPDATE barangay_services SET service_name = ?, description = ?, requirements = ?, processing_time = ?, fee = ?, updated_at = NOW() WHERE id = ?");
+                        $stmt = $conn->prepare("UPDATE barangay_services SET service_name = ?, description = ?, requirements = ?, processing_time = ?, fee = ?, updated_at = datetime('now') WHERE id = ?");
                         if ($stmt->execute([$service_name, $description, $requirements, $processing_time, $fee, $service_id])) {
                             $message = 'Service updated successfully.';
                         } else {

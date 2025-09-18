@@ -67,13 +67,13 @@ try {
     $stats['total_services'] = $stmt->fetch()['count'];
     
     // Recent activity (last 30 days)
-    $stmt = $conn->query("SELECT COUNT(*) as count FROM applications WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)");
+    $stmt = $conn->query("SELECT COUNT(*) as count FROM applications WHERE created_at >= datetime('now', '-30 days')");
     $stats['recent_applications'] = $stmt->fetch()['count'];
     
-    $stmt = $conn->query("SELECT COUNT(*) as count FROM community_concerns WHERE created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)");
+    $stmt = $conn->query("SELECT COUNT(*) as count FROM community_concerns WHERE created_at >= datetime('now', '-30 days')");
     $stats['recent_concerns'] = $stmt->fetch()['count'];
     
-    $stmt = $conn->query("SELECT COUNT(*) as count FROM users WHERE role = 'resident' AND created_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)");
+    $stmt = $conn->query("SELECT COUNT(*) as count FROM users WHERE role = 'resident' AND created_at >= datetime('now', '-30 days')");
     $stats['recent_registrations'] = $stmt->fetch()['count'];
     
     // Monthly data for charts

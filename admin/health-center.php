@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error = 'Service name and description are required.';
                 } else {
                     try {
-                        $stmt = $conn->prepare("INSERT INTO health_services (service_name, description, schedule, fee, service_type, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+                        $stmt = $conn->prepare("INSERT INTO health_services (service_name, description, schedule, fee, service_type, created_at) VALUES (?, ?, ?, ?, ?, datetime('now'))");
                         if ($stmt->execute([$service_name, $description, $schedule, $fee, $service_type])) {
                             $message = 'Health service added successfully.';
                         } else {
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $error = 'Service name and description are required.';
                 } else {
                     try {
-                        $stmt = $conn->prepare("UPDATE health_services SET service_name = ?, description = ?, schedule = ?, fee = ?, service_type = ?, updated_at = NOW() WHERE id = ?");
+                        $stmt = $conn->prepare("UPDATE health_services SET service_name = ?, description = ?, schedule = ?, fee = ?, service_type = ?, updated_at = datetime('now') WHERE id = ?");
                         if ($stmt->execute([$service_name, $description, $schedule, $fee, $service_type, $service_id])) {
                             $message = 'Health service updated successfully.';
                         } else {
