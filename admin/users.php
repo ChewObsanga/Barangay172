@@ -168,9 +168,18 @@ try {
         </div>
     </nav>
 
-    <div class="flex">
+    <div class="flex flex-col lg:flex-row">
+        <!-- Mobile Menu Button -->
+        <div class="lg:hidden fixed top-20 left-4 z-40">
+            <button id="mobileMenuBtn" class="bg-white p-2 rounded-lg shadow-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+        <div id="sidebar" class="w-64 bg-white shadow-lg min-h-screen flex flex-col fixed lg:relative transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-30">
             <div class="flex-1 overflow-y-auto">
                 <div class="p-4">
                     <nav class="space-y-2">
@@ -229,10 +238,10 @@ try {
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 font-garamond">User Management</h1>
-                <p class="text-gray-600">Manage all users in the system</p>
+        <div class="flex-1 p-4 lg:p-8 lg:ml-0">
+            <div class="mb-6 lg:mb-8">
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-garamond">User Management</h1>
+                <p class="text-sm lg:text-base text-gray-600">Manage all users in the system</p>
             </div>
 
             <!-- Messages -->
@@ -248,8 +257,8 @@ try {
             <?php endif; ?>
 
             <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-blue-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-blue-100 text-blue-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -263,7 +272,7 @@ try {
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-green-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-green-100 text-green-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -286,7 +295,7 @@ try {
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-orange-500">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-orange-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-orange-100 text-orange-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -309,7 +318,7 @@ try {
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
                         <div class="p-3 rounded-full bg-purple-100 text-purple-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -693,5 +702,39 @@ try {
     <?php include '../includes/success-modal.php'; ?>
     
     <?php include '../includes/logout_modal.php'; ?>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.createElement('div');
+            
+            // Create overlay for mobile
+            overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden hidden';
+            overlay.id = 'mobileOverlay';
+            document.body.appendChild(overlay);
+            
+            // Toggle mobile menu
+            mobileMenuBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when clicking overlay
+            overlay.addEventListener('click', function() {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+            
+            // Close mobile menu on window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 1024) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

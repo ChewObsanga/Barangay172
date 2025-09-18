@@ -94,9 +94,18 @@ try {
         </div>
     </nav>
 
-    <div class="flex">
+    <div class="flex flex-col lg:flex-row">
+        <!-- Mobile Menu Button -->
+        <div class="lg:hidden fixed top-20 left-4 z-40">
+            <button id="mobileMenuBtn" class="bg-white p-2 rounded-lg shadow-lg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+
         <!-- Sidebar -->
-        <div class="w-64 bg-white shadow-lg min-h-screen flex flex-col">
+        <div id="sidebar" class="w-64 bg-white shadow-lg min-h-screen flex flex-col fixed lg:relative transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out z-30">
             <div class="flex-1 overflow-y-auto">
                 <div class="p-4">
                     <nav class="space-y-2">
@@ -155,76 +164,76 @@ try {
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 font-garamond">Dashboard Overview</h1>
-                <p class="text-gray-600">Welcome to the Barangay 172 Urduja Management System</p>
+        <div class="flex-1 p-4 lg:p-8 lg:ml-0">
+            <div class="mb-6 lg:mb-8">
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-garamond">Dashboard Overview</h1>
+                <p class="text-sm lg:text-base text-gray-600">Welcome to the Barangay 172 Urduja Management System</p>
             </div>
 
             <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-500">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6 lg:mb-8">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-blue-500">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-blue-100 text-blue-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 lg:p-3 rounded-full bg-blue-100 text-blue-600">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
                             </svg>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Total Users</p>
-                            <p class="text-2xl font-semibold text-gray-900"><?php echo $stats['total_users']; ?></p>
+                        <div class="ml-3 lg:ml-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">Total Users</p>
+                            <p class="text-xl lg:text-2xl font-semibold text-gray-900"><?php echo $stats['total_users']; ?></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-500">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-green-500">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-green-100 text-green-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 lg:p-3 rounded-full bg-green-100 text-green-600">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Residents</p>
-                            <p class="text-2xl font-semibold text-gray-900"><?php echo $stats['residents']; ?></p>
+                        <div class="ml-3 lg:ml-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">Residents</p>
+                            <p class="text-xl lg:text-2xl font-semibold text-gray-900"><?php echo $stats['residents']; ?></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-orange-500">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-orange-500">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-orange-100 text-orange-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 lg:p-3 rounded-full bg-orange-100 text-orange-600">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
                             </svg>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Barangay Hall Staff</p>
-                            <p class="text-2xl font-semibold text-gray-900"><?php echo $stats['barangay_hall']; ?></p>
+                        <div class="ml-3 lg:ml-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">Barangay Hall Staff</p>
+                            <p class="text-xl lg:text-2xl font-semibold text-gray-900"><?php echo $stats['barangay_hall']; ?></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-purple-500">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-purple-500">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-purple-100 text-purple-600">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 lg:p-3 rounded-full bg-purple-100 text-purple-600">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
                             </svg>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Health Center Staff</p>
-                            <p class="text-2xl font-semibold text-gray-900"><?php echo $stats['health_center']; ?></p>
+                        <div class="ml-3 lg:ml-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">Health Center Staff</p>
+                            <p class="text-xl lg:text-2xl font-semibold text-gray-900"><?php echo $stats['health_center']; ?></p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Recent Activity and Quick Actions -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
                 <!-- Recent Registrations -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4 font-garamond">Recent Registrations</h3>
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6">
+                    <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-4 font-garamond">Recent Registrations</h3>
                     <div class="space-y-3">
                         <?php if (!empty($recent_users)): ?>
                             <?php foreach ($recent_users as $user): ?>
@@ -247,8 +256,8 @@ try {
                 </div>
 
                 <!-- Quick Actions -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4 font-garamond">Quick Actions</h3>
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6">
+                    <h3 class="text-base lg:text-lg font-semibold text-gray-900 mb-4 font-garamond">Quick Actions</h3>
                     <div class="space-y-3">
                         <a href="users.php" class="flex items-center p-3 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors">
                             <svg class="w-5 h-5 text-blue-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -281,5 +290,39 @@ try {
     </div>
 
     <?php include '../includes/logout_modal.php'; ?>
+
+    <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.createElement('div');
+            
+            // Create overlay for mobile
+            overlay.className = 'fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden hidden';
+            overlay.id = 'mobileOverlay';
+            document.body.appendChild(overlay);
+            
+            // Toggle mobile menu
+            mobileMenuBtn.addEventListener('click', function() {
+                sidebar.classList.toggle('-translate-x-full');
+                overlay.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when clicking overlay
+            overlay.addEventListener('click', function() {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            });
+            
+            // Close mobile menu on window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 1024) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

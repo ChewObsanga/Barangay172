@@ -126,10 +126,10 @@ if (file_exists('pending_emails.txt')) {
         </div>
     </nav>
 
-    <div class="max-w-6xl mx-auto p-8">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 font-garamond">Email Management</h1>
-            <p class="text-gray-600">Manage pending email deliveries and send credentials manually</p>
+    <div class="max-w-6xl mx-auto p-4 lg:p-8">
+        <div class="mb-6 lg:mb-8">
+            <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-garamond">Email Management</h1>
+            <p class="text-sm lg:text-base text-gray-600">Manage pending email deliveries and send credentials manually</p>
         </div>
 
         <!-- Messages -->
@@ -146,8 +146,8 @@ if (file_exists('pending_emails.txt')) {
         <?php endif; ?>
 
         <!-- Pending Emails -->
-        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-            <h2 class="text-xl font-bold text-gray-900 font-garamond mb-4">Pending Email Deliveries (<?php echo count($pendingEmails); ?>)</h2>
+        <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 mb-6 lg:mb-8">
+            <h2 class="text-lg lg:text-xl font-bold text-gray-900 font-garamond mb-4">Pending Email Deliveries (<?php echo count($pendingEmails); ?>)</h2>
             
             <?php if (empty($pendingEmails)): ?>
                 <p class="text-gray-500">No pending emails.</p>
@@ -185,8 +185,8 @@ if (file_exists('pending_emails.txt')) {
         </div>
 
         <!-- Email Configuration Status -->
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h2 class="text-xl font-bold text-gray-900 font-garamond mb-4">Email Configuration Status</h2>
+        <div class="bg-white rounded-xl shadow-md p-4 lg:p-6">
+            <h2 class="text-lg lg:text-xl font-bold text-gray-900 font-garamond mb-4">Email Configuration Status</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="p-4 bg-blue-50 rounded-lg">
                     <h3 class="font-semibold text-blue-800">SMTP Configuration</h3>
