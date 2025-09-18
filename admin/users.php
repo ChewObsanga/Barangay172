@@ -55,6 +55,69 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     }
                 }
                 break;
+                
+            case 'create_user':
+                if (isset($_POST['full_name']) && isset($_POST['email']) && isset($_POST['role'])) {
+                    $full_name = trim($_POST['full_name']);
+                    $email = trim($_POST['email']);
+                    $role = $_POST['role'];
+                    $phone = trim($_POST['phone'] ?? '');
+                    $address = trim($_POST['address'] ?? '');
+                    
+                    // Validate required fields
+                    if (empty($full_name) || empty($email) || empty($role)) {
+                        $error = 'Please fill in all required fields.';
+                    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $error = 'Please enter a valid email address.';
+                    } elseif (!in_array($role, ['barangay_hall', 'health_center'])) {
+                        $error = 'Invalid role selected.';
+                    } else {
+                        try {
+                            // Check if email already exists
+                            $check_stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+                            $check_stmt->execute([$email]);
+                            if ($check_stmt->fetch()) {
+                                $error = 'Email address already exists.';
+                            } else {
+                                // Generate username based on role and name
+                                $username = generateUsername($conn, $role);
+                                
+                                // Generate random password
+                                $password = generateRandomPassword();
+                                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                                
+                                // Insert new user
+                                $insert_stmt = $conn->prepare("INSERT INTO users (full_name, username, email, password, role, phone, address, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 'active', NOW())");
+                                
+                                if ($insert_stmt->execute([$full_name, $username, $email, $hashed_password, $role, $phone, $address])) {
+                                    // Send email with credentials
+                                    try {
+                                        require_once '../includes/EmailService.php';
+                                        $emailService = new EmailService();
+                                        $emailSent = $emailService->sendRegistrationCredentials($email, $username, $password, $full_name, $role);
+                                        
+                                        if ($emailSent) {
+                                            $message = 'User created successfully! Login credentials have been sent to their email.';
+                                        } else {
+                                            $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password;
+                                        }
+                                    } catch (Exception $e) {
+                                        $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password;
+                                    }
+                                    
+                                    // Redirect to prevent form resubmission
+                                    header('Location: users.php?message=' . urlencode($message));
+                                    exit();
+                                } else {
+                                    $error = 'Failed to create user.';
+                                }
+                            }
+                        } catch (Exception $e) {
+                            $error = 'Error creating user: ' . $e->getMessage();
+                        }
+                    }
+                }
+                break;
         }
     }
 }
@@ -110,6 +173,35 @@ try {
     $error = 'Database error: ' . $e->getMessage();
     $users = [];
     $total_pages = 0;
+}
+
+// Helper function to generate username
+function generateUsername($conn, $role) {
+    $prefix = $role === 'barangay_hall' ? 'bh' : 'hc';
+    $counter = 1;
+    
+    do {
+        $username = $prefix . str_pad($counter, 3, '0', STR_PAD_LEFT);
+        $check_stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+        $check_stmt->execute([$username]);
+        $exists = $check_stmt->fetch();
+        $counter++;
+    } while ($exists);
+    
+    return $username;
+}
+
+// Helper function to generate random password
+function generateRandomPassword($length = 8) {
+    $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+    $password = '';
+    $charactersLength = strlen($characters);
+    
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $characters[rand(0, $charactersLength - 1)];
+    }
+    
+    return $password;
 }
 ?>
 
@@ -392,6 +484,12 @@ try {
                         </select>
                     </div>
                     <div class="flex gap-2">
+                        <button type="button" onclick="showCreateUserModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition duration-300">
+                            <svg class="w-4 h-4 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Create User
+                        </button>
                         <button type="submit" class="bg-barangay-orange hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium transition duration-300">
                             Search
                         </button>
@@ -613,6 +711,96 @@ try {
         </div>
     </div>
 
+    <!-- Create User Modal -->
+    <div id="createUserModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-10 mx-auto p-5 border w-11/12 max-w-2xl shadow-lg rounded-2xl bg-white">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-gray-900 font-garamond">Create New User</h3>
+                <button onclick="hideCreateUserModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form method="POST" id="createUserForm" class="space-y-6">
+                <input type="hidden" name="action" value="create_user">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="full_name" class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
+                        <input type="text" id="full_name" name="full_name" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-barangay-orange focus:border-transparent"
+                               placeholder="Enter full name">
+                    </div>
+                    
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                        <input type="email" id="email" name="email" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-barangay-orange focus:border-transparent"
+                               placeholder="Enter email address">
+                    </div>
+                    
+                    <div>
+                        <label for="role" class="block text-sm font-medium text-gray-700 mb-2">Role *</label>
+                        <select id="role" name="role" required 
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-barangay-orange focus:border-transparent">
+                            <option value="">Select Role</option>
+                            <option value="barangay_hall">Barangay Hall Admin</option>
+                            <option value="health_center">Health Center Admin</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-barangay-orange focus:border-transparent"
+                               placeholder="Enter phone number">
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                    <textarea id="address" name="address" rows="3" 
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-barangay-orange focus:border-transparent"
+                              placeholder="Enter address"></textarea>
+                </div>
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-blue-800">Account Creation Info</h3>
+                            <div class="mt-2 text-sm text-blue-700">
+                                <ul class="list-disc list-inside space-y-1">
+                                    <li>Username will be auto-generated (e.g., bh001, hc001)</li>
+                                    <li>Password will be auto-generated and sent via email</li>
+                                    <li>User will be set to "Active" status by default</li>
+                                    <li>Login credentials will be emailed to the provided email address</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3">
+                    <button type="button" onclick="hideCreateUserModal()" 
+                            class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
+                        Cancel
+                    </button>
+                    <button type="submit" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition duration-300">
+                        Create User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         function showUserDetails(user) {
             const content = document.getElementById('userDetailsContent');
@@ -700,6 +888,16 @@ try {
             document.getElementById('deleteModal').classList.add('hidden');
         }
 
+        function showCreateUserModal() {
+            document.getElementById('createUserModal').classList.remove('hidden');
+        }
+
+        function hideCreateUserModal() {
+            document.getElementById('createUserModal').classList.add('hidden');
+            // Reset form
+            document.getElementById('createUserForm').reset();
+        }
+
         // Close modals when clicking outside
         document.getElementById('userDetailsModal').addEventListener('click', function(e) {
             if (e.target === this) hideUserDetailsModal();
@@ -711,6 +909,10 @@ try {
 
         document.getElementById('deleteModal').addEventListener('click', function(e) {
             if (e.target === this) hideDeleteModal();
+        });
+
+        document.getElementById('createUserModal').addEventListener('click', function(e) {
+            if (e.target === this) hideCreateUserModal();
         });
 
         function exportUsers() {
