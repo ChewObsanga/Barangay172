@@ -40,10 +40,16 @@ class EmailService {
     
     public function sendRegistrationCredentials($email, $username, $password, $fullName, $role) {
         if (!EMAIL_ENABLED) {
+            error_log("Email sending disabled - EMAIL_ENABLED is false");
             return false;
         }
         
         try {
+            error_log("EmailService: Starting email send process for $email");
+            error_log("EmailService: SMTP Host: " . SMTP_HOST);
+            error_log("EmailService: SMTP Username: " . SMTP_USERNAME);
+            error_log("EmailService: SMTP Port: " . SMTP_PORT);
+            
             $this->mailer->clearAddresses();
             $this->mailer->addAddress($email, $fullName);
             $this->mailer->Subject = EMAIL_SUBJECT_REGISTRATION;
@@ -55,11 +61,14 @@ class EmailService {
             // Create plain text version
             $this->mailer->AltBody = $this->createPlainTextVersion($username, $password, $fullName, $role);
             
-            $this->mailer->send();
-            return true;
+            error_log("EmailService: Attempting to send email to $email");
+            $result = $this->mailer->send();
+            error_log("EmailService: Send result: " . ($result ? 'true' : 'false'));
+            return $result;
             
         } catch (Exception $e) {
-            error_log("Email sending failed: " . $e->getMessage());
+            error_log("EmailService: Exception during send - " . $e->getMessage());
+            error_log("EmailService: PHPMailer ErrorInfo: " . $this->mailer->ErrorInfo);
             return false;
         }
     }

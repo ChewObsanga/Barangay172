@@ -94,15 +94,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     try {
                                         require_once '../includes/EmailService.php';
                                         $emailService = new EmailService();
+                                        
+                                        // Log email attempt
+                                        error_log("Attempting to send registration email to: $email");
+                                        
                                         $emailSent = $emailService->sendRegistrationCredentials($email, $username, $password, $full_name, $role);
                                         
                                         if ($emailSent) {
                                             $message = 'User created successfully! Login credentials have been sent to their email.';
+                                            error_log("Registration email sent successfully to: $email");
                                         } else {
-                                            $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password;
+                                            $errorInfo = $emailService->getLastError();
+                                            error_log("Failed to send registration email to: $email. Error: $errorInfo");
+                                            $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password . ' (Error: ' . $errorInfo . ')';
                                         }
                                     } catch (Exception $e) {
-                                        $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password;
+                                        error_log("Exception while sending registration email to: $email. Error: " . $e->getMessage());
+                                        $message = 'User created successfully! However, there was an issue sending the email. Username: ' . $username . ', Password: ' . $password . ' (Exception: ' . $e->getMessage() . ')';
                                     }
                                     
                                     // Redirect to prevent form resubmission
