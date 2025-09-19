@@ -273,6 +273,52 @@ class Database {
             error_log("Barangay staff user creation skipped: " . $e->getMessage());
         }
         
+        // Insert default resident users if not exists
+        try {
+            $stmt = $this->connection->prepare("SELECT COUNT(*) FROM users WHERE username = 'resident1' OR email = 'resident1@barangay172.com'");
+            $stmt->execute();
+            if ($stmt->fetchColumn() == 0) {
+                $resident1_password = password_hash('resident123', PASSWORD_DEFAULT);
+                $stmt = $this->connection->prepare("
+                    INSERT INTO users (full_name, username, email, password, role, phone, address, account_verified) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, TRUE)
+                ");
+                $stmt->execute(['Juan Dela Cruz', 'resident1', 'resident1@barangay172.com', $resident1_password, 'resident', '09123456789', '123 Main St., Brgy. 172 Urduja, Caloocan City']);
+            }
+        } catch (PDOException $e) {
+            error_log("Resident1 user creation skipped: " . $e->getMessage());
+        }
+        
+        try {
+            $stmt = $this->connection->prepare("SELECT COUNT(*) FROM users WHERE username = 'resident2' OR email = 'resident2@barangay172.com'");
+            $stmt->execute();
+            if ($stmt->fetchColumn() == 0) {
+                $resident2_password = password_hash('resident123', PASSWORD_DEFAULT);
+                $stmt = $this->connection->prepare("
+                    INSERT INTO users (full_name, username, email, password, role, phone, address, account_verified) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, TRUE)
+                ");
+                $stmt->execute(['Maria Santos', 'resident2', 'resident2@barangay172.com', $resident2_password, 'resident', '09234567890', '456 Side St., Brgy. 172 Urduja, Caloocan City']);
+            }
+        } catch (PDOException $e) {
+            error_log("Resident2 user creation skipped: " . $e->getMessage());
+        }
+        
+        try {
+            $stmt = $this->connection->prepare("SELECT COUNT(*) FROM users WHERE username = 'resident3' OR email = 'resident3@barangay172.com'");
+            $stmt->execute();
+            if ($stmt->fetchColumn() == 0) {
+                $resident3_password = password_hash('resident123', PASSWORD_DEFAULT);
+                $stmt = $this->connection->prepare("
+                    INSERT INTO users (full_name, username, email, password, role, phone, address, account_verified) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, TRUE)
+                ");
+                $stmt->execute(['Ana Garcia', 'resident3', 'resident3@barangay172.com', $resident3_password, 'resident', '09345678901', '789 Corner St., Brgy. 172 Urduja, Caloocan City']);
+            }
+        } catch (PDOException $e) {
+            error_log("Resident3 user creation skipped: " . $e->getMessage());
+        }
+        
         // Insert sample barangay services
         $stmt = $this->connection->prepare("SELECT COUNT(*) FROM barangay_services");
         $stmt->execute();
