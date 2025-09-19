@@ -71,24 +71,28 @@ $notificationHelper->markAsViewed($user_id, 'dashboard');
     <!-- Navigation -->
     <nav class="bg-barangay-orange shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
+            <div class="flex justify-between h-16 lg:h-20">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center space-x-4">
-                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full">
-                        <div>
-                            <h1 class="text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
+                    <div class="flex-shrink-0 flex items-center space-x-2 lg:space-x-4">
+                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-10 w-10 lg:h-14 lg:w-14 rounded-full">
+                        <div class="hidden sm:block">
+                            <h1 class="text-lg lg:text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
+                            <p class="text-xs lg:text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
                         </div>
-                        <div class="flex items-center space-x-2 ml-4">
+                        <div class="hidden lg:flex items-center space-x-2 ml-4">
                             <img src="../assets/images/caloocanlogo.png" alt="Caloocan Logo" class="h-14 w-14 rounded-full">
                             <img src="../assets/images/bagongpilipinas.png" alt="Bagong Pilipinas Logo" class="h-16 w-16 rounded-full">
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                            <span class="text-barangay-orange font-bold text-lg">
+                <div class="flex items-center space-x-2 lg:space-x-4">
+                    <!-- Mobile title for small screens -->
+                    <div class="sm:hidden">
+                        <h1 class="text-sm font-bold text-white font-eb-garamond">Barangay Hall</h1>
+                    </div>
+                    <div class="flex items-center space-x-2 lg:space-x-3">
+                        <div class="w-8 h-8 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-barangay-orange font-bold text-sm lg:text-lg">
                                 <?php 
                                 $fullName = $_SESSION['full_name'] ?? 'Staff';
                                 $nameParts = explode(' ', $fullName);
@@ -112,7 +116,7 @@ $notificationHelper->markAsViewed($user_id, 'dashboard');
         <!-- Mobile Menu Button -->
         <button id="sidebarToggle" class="lg:hidden fixed top-20 left-4 z-40 bg-barangay-orange text-white p-1.5 rounded-full shadow-lg">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
 
@@ -193,52 +197,52 @@ $notificationHelper->markAsViewed($user_id, 'dashboard');
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 font-eb-garamond">Welcome to Barangay Hall Dashboard</h1>
-                <p class="text-gray-600">Manage barangay services and resident verification</p>
+        <div class="flex-1 p-4 lg:p-8 ml-16 lg:ml-0">
+            <div class="mb-6 lg:mb-8">
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-eb-garamond">Welcome to Barangay Hall Dashboard</h1>
+                <p class="text-sm lg:text-base text-gray-600">Manage barangay services and resident verification</p>
             </div>
 
             <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-200">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-6 lg:mb-8">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-green-200">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-green-50 text-green-400">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 lg:p-3 rounded-full bg-green-50 text-green-400">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Total Residents</p>
-                            <p class="text-2xl font-semibold text-gray-900"><?php echo $total_residents; ?></p>
+                        <div class="ml-3 lg:ml-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">Total Residents</p>
+                            <p class="text-xl lg:text-2xl font-semibold text-gray-900"><?php echo $total_residents; ?></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-200">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-green-200">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-green-50 text-green-400">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 lg:p-3 rounded-full bg-green-50 text-green-400">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Verified Accounts</p>
-                            <p class="text-2xl font-semibold text-gray-900"><?php echo $verified_residents; ?></p>
+                        <div class="ml-3 lg:ml-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">Verified Accounts</p>
+                            <p class="text-xl lg:text-2xl font-semibold text-gray-900"><?php echo $verified_residents; ?></p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-200">
+                <div class="bg-white rounded-xl shadow-md p-4 lg:p-6 border-l-4 border-green-200 sm:col-span-2 lg:col-span-1">
                     <div class="flex items-center">
-                        <div class="p-3 rounded-full bg-green-50 text-green-400">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div class="p-2 lg:p-3 rounded-full bg-green-50 text-green-400">
+                            <svg class="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <div class="ml-4">
-                            <p class="text-sm font-medium text-gray-600">Pending Verification</p>
-                            <p class="text-2xl font-semibold text-gray-900"><?php echo $pending_verification; ?></p>
+                        <div class="ml-3 lg:ml-4">
+                            <p class="text-xs lg:text-sm font-medium text-gray-600">Pending Verification</p>
+                            <p class="text-xl lg:text-2xl font-semibold text-gray-900"><?php echo $pending_verification; ?></p>
                         </div>
                     </div>
                 </div>

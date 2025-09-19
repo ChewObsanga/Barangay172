@@ -277,21 +277,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- Navigation -->
     <nav class="bg-barangay-orange shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
+            <div class="flex justify-between h-16 lg:h-20">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center space-x-4">
-                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full">
-                        <div>
-                            <h1 class="text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
+                    <div class="flex-shrink-0 flex items-center space-x-2 lg:space-x-4">
+                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-10 w-10 lg:h-14 lg:w-14 rounded-full">
+                        <div class="hidden sm:block">
+                            <h1 class="text-lg lg:text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
+                            <p class="text-xs lg:text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
                         </div>
-                        <div class="flex items-center space-x-2 ml-4">
+                        <div class="hidden lg:flex items-center space-x-2 ml-4">
                             <img src="../assets/images/caloocanlogo.png" alt="Caloocan Logo" class="h-14 w-14 rounded-full">
                             <img src="../assets/images/bagongpilipinas.png" alt="Bagong Pilipinas Logo" class="h-16 w-16 rounded-full">
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2 lg:space-x-4">
+                    <!-- Mobile title for small screens -->
+                    <div class="sm:hidden">
+                        <h1 class="text-sm font-bold text-white font-eb-garamond">Barangay Hall</h1>
+                    </div>
                     <div class="flex items-center space-x-3">
                         <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
                             <span class="text-barangay-orange font-bold text-lg">
@@ -399,7 +403,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
+        <div class="flex-1 p-4 lg:p-8 ml-16 lg:ml-0">
             <div class="mb-8">
                 <h1 class="text-3xl font-bold text-gray-900 font-eb-garamond">Reports & Analytics</h1>
                 <p class="text-gray-600">Generate reports and view analytics for barangay operations</p>

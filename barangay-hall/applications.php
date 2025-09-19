@@ -219,24 +219,28 @@ try {
     <!-- Navigation -->
     <nav class="bg-barangay-orange shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
+            <div class="flex justify-between h-16 lg:h-20">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center space-x-4">
-                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full">
-                        <div>
-                            <h1 class="text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
+                    <div class="flex-shrink-0 flex items-center space-x-2 lg:space-x-4">
+                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-10 w-10 lg:h-14 lg:w-14 rounded-full">
+                        <div class="hidden sm:block">
+                            <h1 class="text-lg lg:text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
+                            <p class="text-xs lg:text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
                         </div>
-                        <div class="flex items-center space-x-2 ml-4">
+                        <div class="hidden lg:flex items-center space-x-2 ml-4">
                             <img src="../assets/images/caloocanlogo.png" alt="Caloocan Logo" class="h-14 w-14 rounded-full">
                             <img src="../assets/images/bagongpilipinas.png" alt="Bagong Pilipinas Logo" class="h-16 w-16 rounded-full">
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                            <span class="text-barangay-orange font-bold text-lg">
+                <div class="flex items-center space-x-2 lg:space-x-4">
+                    <!-- Mobile title for small screens -->
+                    <div class="sm:hidden">
+                        <h1 class="text-sm font-bold text-white font-eb-garamond">Barangay Hall</h1>
+                    </div>
+                    <div class="flex items-center space-x-2 lg:space-x-3">
+                        <div class="w-8 h-8 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-barangay-orange font-bold text-sm lg:text-lg">
                                 <?php 
                                 $fullName = $_SESSION['full_name'] ?? 'Staff';
                                 $nameParts = explode(' ', $fullName);
@@ -260,7 +264,7 @@ try {
         <!-- Mobile Menu Button -->
         <button id="sidebarToggle" class="lg:hidden fixed top-20 left-4 z-40 bg-barangay-orange text-white p-1.5 rounded-full shadow-lg">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
 
@@ -334,11 +338,11 @@ try {
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
+        <div class="flex-1 p-4 lg:p-8 ml-16 lg:ml-0">
             <!-- Header -->
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 font-eb-garamond">Applications Management</h1>
-                <p class="text-gray-600 mt-2">Review and manage all resident document requests</p>
+            <div class="mb-6 lg:mb-8">
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-eb-garamond">Applications Management</h1>
+                <p class="text-sm lg:text-base text-gray-600 mt-2">Review and manage all resident document requests</p>
             </div>
 
             <!-- Messages -->
@@ -423,24 +427,24 @@ try {
                 <?php else: ?>
                     <div class="overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
-                                                         <thead class="bg-gray-50">
-                                 <tr>
-                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reference No.</th>
-                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
-                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
-                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                                 </tr>
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reference No.</th>
+                                    <th class="px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
+                                    <th class="hidden sm:table-cell px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                                    <th class="px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="hidden md:table-cell px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-3 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
                              </thead>
                                                          <tbody class="bg-white divide-y divide-gray-200">
                                  <?php foreach ($applications as $app): ?>
                                      <tr class="hover:bg-gray-50">
-                                         <td class="px-6 py-4">
+                                         <td class="px-3 lg:px-6 py-4">
                                              <div class="text-sm font-medium text-gray-900">BRG-<?php echo str_pad($app['id'], 6, '0', STR_PAD_LEFT); ?></div>
                                              <div class="text-xs text-gray-500"><?php echo date('Y', strtotime($app['created_at'])); ?></div>
                                          </td>
-                                         <td class="px-6 py-4">
+                                         <td class="px-3 lg:px-6 py-4">
                                              <div>
                                                  <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($app['full_name']); ?></div>
                                                  <div class="text-sm text-gray-500"><?php echo htmlspecialchars($app['email']); ?></div>
@@ -457,10 +461,10 @@ try {
                                                  </div>
                                              </div>
                                          </td>
-                                         <td class="px-6 py-4">
+                                         <td class="hidden sm:table-cell px-3 lg:px-6 py-4">
                                              <div class="text-sm text-gray-900"><?php echo htmlspecialchars($app['service_name'] ?? 'N/A'); ?></div>
                                          </td>
-                                        <td class="px-6 py-4">
+                                        <td class="px-3 lg:px-6 py-4">
                                             <?php 
                                             $status = $app['status'] ?? 'pending';
                                             $status_colors = [
@@ -482,7 +486,7 @@ try {
                                                 ?>
                                             </span>
                                         </td>
-                                        <td class="px-6 py-4">
+                                        <td class="hidden md:table-cell px-3 lg:px-6 py-4">
                                             <div class="text-sm text-gray-900">
                                                 <?php echo date('M d, Y', strtotime($app['created_at'])); ?>
                                             </div>
@@ -495,7 +499,7 @@ try {
                                                 </div>
                                             <?php endif; ?>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <td class="px-3 lg:px-6 py-4 whitespace-nowrap text-sm font-medium">
                                             <button onclick="processApplication(<?php echo htmlspecialchars(json_encode($app)); ?>)" 
                                                     class="bg-barangay-green hover:bg-green-600 text-white px-3 py-1 rounded-lg text-sm font-medium transition duration-300">
                                                 Process

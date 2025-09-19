@@ -252,24 +252,28 @@ try {
     <!-- Navigation -->
     <nav class="bg-barangay-orange shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-20">
+            <div class="flex justify-between h-16 lg:h-20">
                 <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center space-x-4">
-                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-14 w-14 rounded-full">
-                        <div>
-                            <h1 class="text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
-                            <p class="text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
+                    <div class="flex-shrink-0 flex items-center space-x-2 lg:space-x-4">
+                        <img src="../assets/images/b172logo.png" alt="Barangay 172 Logo" class="h-10 w-10 lg:h-14 lg:w-14 rounded-full">
+                        <div class="hidden sm:block">
+                            <h1 class="text-lg lg:text-xl font-bold text-white font-eb-garamond">Barangay Hall Dashboard</h1>
+                            <p class="text-xs lg:text-sm text-orange-100">Brgy. 172 Urduja Zone 15 District 1 Caloocan City</p>
                         </div>
-                        <div class="flex items-center space-x-2 ml-4">
+                        <div class="hidden lg:flex items-center space-x-2 ml-4">
                             <img src="../assets/images/caloocanlogo.png" alt="Caloocan Logo" class="h-14 w-14 rounded-full">
                             <img src="../assets/images/bagongpilipinas.png" alt="Bagong Pilipinas Logo" class="h-16 w-16 rounded-full">
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                            <span class="text-barangay-orange font-bold text-lg">
+                <div class="flex items-center space-x-2 lg:space-x-4">
+                    <!-- Mobile title for small screens -->
+                    <div class="sm:hidden">
+                        <h1 class="text-sm font-bold text-white font-eb-garamond">Barangay Hall</h1>
+                    </div>
+                    <div class="flex items-center space-x-2 lg:space-x-3">
+                        <div class="w-8 h-8 lg:w-12 lg:h-12 bg-white rounded-full flex items-center justify-center">
+                            <span class="text-barangay-orange font-bold text-sm lg:text-lg">
                                 <?php 
                                 $fullName = $_SESSION['full_name'] ?? 'Staff';
                                 $nameParts = explode(' ', $fullName);
@@ -293,7 +297,7 @@ try {
         <!-- Mobile Menu Button -->
         <button id="sidebarToggle" class="lg:hidden fixed top-20 left-4 z-40 bg-barangay-orange text-white p-1.5 rounded-full shadow-lg">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
         </button>
 
@@ -367,10 +371,10 @@ try {
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 p-8">
-            <div class="mb-8">
-                <h1 class="text-3xl font-bold text-gray-900 font-eb-garamond">Residents Account Management</h1>
-                <p class="text-gray-600">Verify resident accounts and manage document verification</p>
+        <div class="flex-1 p-4 lg:p-8 ml-16 lg:ml-0">
+            <div class="mb-6 lg:mb-8">
+                <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-eb-garamond">Residents Account Management</h1>
+                <p class="text-sm lg:text-base text-gray-600">Verify resident accounts and manage document verification</p>
             </div>
 
             <!-- Messages -->
