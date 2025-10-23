@@ -51,9 +51,21 @@
                     <a href="services.html" class="text-white hover:text-orange-200 font-medium transition duration-300">Services</a>
                     <a href="index.html#news" class="text-white hover:text-orange-200 font-medium transition duration-300">News</a>
                 </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl p-2 transition">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
+            <a href="index.html#home" class="py-2 text-gray-800 hover:text-orange-600">Home</a>
+            <a href="about.html" class="py-2 text-gray-800 hover:text-orange-600">About</a>
+            <a href="services.html" class="py-2 text-gray-800 hover:text-orange-600">Services</a>
+            <a href="index.html#news" class="py-2 text-gray-800 hover:text-orange-600">News</a>
+        </div>
+    </div>
 
     <!-- Header -->
     <section class="gradient-bg hero-pattern animate-fade-up">
@@ -288,6 +300,15 @@
     </footer>
 
     <script>
+        // Mobile menu toggle
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (btn && menu) {
+                btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+            }
+        });
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(e => {
                 if (e.isIntersecting) { e.target.classList.add('in-view'); }

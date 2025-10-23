@@ -92,9 +92,21 @@
                     <a href="services.html" class="text-white hover:text-orange-200 font-medium transition duration-300">Services</a>
                     <a href="#news" class="text-white hover:text-orange-200 font-medium transition duration-300">News</a>
                 </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl p-2 transition">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
+            <a href="#home" class="py-2 text-gray-800 hover:text-orange-600">Home</a>
+            <a href="about.html" class="py-2 text-gray-800 hover:text-orange-600">About</a>
+            <a href="services.html" class="py-2 text-gray-800 hover:text-orange-600">Services</a>
+            <a href="#news" class="py-2 text-gray-800 hover:text-orange-600">News</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section id="home" class="gradient-bg hero-pattern relative overflow-hidden">
@@ -208,11 +220,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Scroll indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <i class="fas fa-chevron-down text-white text-2xl"></i>
-    </div>
     </section>
 
     
@@ -241,6 +248,8 @@
             const passwordInput = document.getElementById('password');
             const togglePasswordButton = document.getElementById('togglePassword');
             const eyeIcon = document.getElementById('eyeIcon');
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
 
             if (togglePasswordButton && eyeIcon) {
                 togglePasswordButton.addEventListener('click', function() {
@@ -260,6 +269,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"></path>
                         `;
                     }
+                });
+            }
+
+            if (mobileBtn && mobileMenu) {
+                mobileBtn.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
                 });
             }
         });

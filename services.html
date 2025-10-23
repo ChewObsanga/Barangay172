@@ -69,9 +69,21 @@
                     <a href="services.html" class="text-white underline underline-offset-4 decoration-white font-semibold">Services</a>
                     <a href="index.html#news" class="text-white hover:text-orange-200 font-medium transition duration-300">News</a>
                 </div>
+                <button id="mobile-menu-btn" class="md:hidden text-white bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl p-2 transition">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <div id="mobile-menu" class="md:hidden hidden bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-2">
+            <a href="index.html#home" class="py-2 text-gray-800 hover:text-orange-600">Home</a>
+            <a href="about.html" class="py-2 text-gray-800 hover:text-orange-600">About</a>
+            <a href="services.html" class="py-2 text-gray-800 hover:text-orange-600">Services</a>
+            <a href="index.html#news" class="py-2 text-gray-800 hover:text-orange-600">News</a>
+        </div>
+    </div>
 
     <!-- Services Header -->
     <section class="py-16 bg-transparent animate-fade-up">
@@ -174,22 +186,33 @@
         </div>
     </footer>
     <script>
+        // Mobile menu toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
+        }
+
         // Reveal on scroll
         const obs = new IntersectionObserver((entries)=>{
             entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in-view'); } });
         }, {threshold: 0.15, rootMargin: '0px 0px -40px 0px'});
         document.querySelectorAll('.animate-fade-up').forEach(el=>obs.observe(el));
 
-        // Simple slider
+        // Simple slider (guarded in case elements are absent)
         const track = document.getElementById('svc-track');
-        const slides = 3; let idx = 0; let autoplay;
-        const dots = [0,1,2].map(i=>document.getElementById('dot-'+i));
-        function go(i){ idx = (i+slides)%slides; track.style.transform = `translateX(-${idx*100}%)`; dots.forEach((d,j)=>d.className = `w-2.5 h-2.5 rounded-full ${j===idx?'bg-orange-500':'bg-gray-300'}`); }
-        document.getElementById('svc-prev').addEventListener('click',()=>{ go(idx-1); restart(); });
-        document.getElementById('svc-next').addEventListener('click',()=>{ go(idx+1); restart(); });
-        function start(){ autoplay = setInterval(()=>go(idx+1), 5000); }
-        function restart(){ clearInterval(autoplay); start(); }
-        start();
+        if (track) {
+            const slides = 3; let idx = 0; let autoplay;
+            const dots = [0,1,2].map(i=>document.getElementById('dot-'+i)).filter(Boolean);
+            function go(i){ idx = (i+slides)%slides; track.style.transform = `translateX(-${idx*100}%)`; dots.forEach((d,j)=> d.className = `w-2.5 h-2.5 rounded-full ${j===idx?'bg-orange-500':'bg-gray-300'}`); }
+            const prev = document.getElementById('svc-prev');
+            const next = document.getElementById('svc-next');
+            prev && prev.addEventListener('click',()=>{ go(idx-1); restart(); });
+            next && next.addEventListener('click',()=>{ go(idx+1); restart(); });
+            function start(){ autoplay = setInterval(()=>go(idx+1), 5000); }
+            function restart(){ clearInterval(autoplay); start(); }
+            start();
+        }
     </script>
 </body>
 </html>
