@@ -198,6 +198,62 @@ This is an automated message. Please do not reply to this email.";
         return $this->mailer->ErrorInfo;
     }
 
+    public function sendPasswordReset($email, $username, $password, $fullName) {
+        if (!EMAIL_ENABLED) {
+            return false;
+        }
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($email, $fullName);
+            $this->mailer->Subject = 'Password Reset - Barangay 172 Urduja';
+
+            $body = "
+            <!DOCTYPE html>
+            <html lang='en'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Password Reset</title>
+                <style>
+                    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
+                    .container { max-width: 600px; margin: 0 auto; background: #ffffff; }
+                    .header { background: linear-gradient(135deg, #ff8829, #2E8B57); color: white; padding: 24px; text-align: center; }
+                    .content { padding: 24px; background: #f9f9f9; }
+                    .card { background: white; padding: 16px; border-radius: 8px; border-left: 4px solid #ff8829; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+                    .mono { font-family: 'Courier New', monospace; background: #f0f0f0; padding: 6px 10px; border-radius: 4px; }
+                    .btn { display: inline-block; background: #2E8B57; color: white; padding: 10px 16px; text-decoration: none; border-radius: 6px; margin-top: 16px; font-weight: bold; }
+                </style>
+            </head>
+            <body>
+                <div class='container'>
+                    <div class='header'>
+                        <h2>Barangay 172 Urduja</h2>
+                        <p>Password Reset</p>
+                    </div>
+                    <div class='content'>
+                        <p>Dear <strong>{$fullName}</strong>,</p>
+                        <p>Your password has been reset. Use the temporary credentials below to sign in, then change your password immediately.</p>
+                        <div class='card'>
+                            <p><strong>Username:</strong> <span class='mono'>{$username}</span></p>
+                            <p><strong>Temporary Password:</strong> <span class='mono'>{$password}</span></p>
+                        </div>
+                        <a href='" . LOGIN_URL . "' class='btn'>Go to Login</a>
+                        <p style='margin-top: 16px;'>If you did not request this change, please contact the barangay office.</p>
+                    </div>
+                </div>
+            </body>
+            </html>";
+
+            $this->mailer->Body = $body;
+            $this->mailer->AltBody = "Your password has been reset. Username: {$username}. Temporary Password: {$password}. Login: " . LOGIN_URL;
+            $this->mailer->send();
+            return true;
+        } catch (Exception $e) {
+            error_log("Email sending failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function sendReadyForPickup($email, $fullName, $referenceNo, $serviceName) {
         if (!EMAIL_ENABLED) {
             return false;

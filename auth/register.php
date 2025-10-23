@@ -469,11 +469,11 @@ function generateRandomPassword($length = 8) {
 
                          <!-- Links -->
                          <div class="text-center mt-4">
-                             <a href="login.php" class="text-sm text-barangay-green hover:text-green-700 font-medium transition-colors">
-                                 Already have an account? 
-                                 <span class="underline">Sign in here</span>
-                             </a>
-                         </div>
+                            <a href="../index.html#login" class="text-sm text-barangay-green hover:text-green-700 font-medium transition-colors">
+                                Already have an account? 
+                                <span class="underline">Sign in here</span>
+                            </a>
+                        </div>
                      </div>
                 </form>
             </div>
